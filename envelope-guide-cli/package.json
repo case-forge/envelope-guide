@@ -1,0 +1,14 @@
+{
+  "name": "envelope-guide-cli",
+  "version": "1.0.0",
+  "description": "Makes the Envelope Guide sheet (letterhead and window envelope address block) as a PDF from a JSON request",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "envelope-guide": "cli.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MPL-2.0"
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://caseforge.uk/schemas/envelope-guide-request-1.json",
+  "title": "Envelope Guide request, schemaVersion 1",
+  "description": "One request object writes one PDF at <output>. An array of request objects is a batch: <output> is a folder and each request writes its own PDF into it. Keys not listed are rejected (error code unknown_key). Text longer than its limit is cut with a warning (field_truncated).",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "type": "array", "minItems": 1, "maxItems": 500, "items": { "$ref": "#/$defs/request" } }
+  ],
+  "$defs": {
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": { "const": 1, "description": "Optional. When present it must be 1." },
+        "_comment": { "type": "string" },
+        "output": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._ -]{0,100}\\.pdf$", "description": "Batch only: the file name for this sheet inside the output folder. Default envelope-NNN.pdf, NNN being the request's position (from 001)." },
+        "envelope": { "enum": ["dl-din-5008-b", "dl-din-5008-a", "dl-uk", "c5", "c4"], "default": "dl-din-5008-b", "description": "The older ids dl-din-a and dl-din-b are still accepted (with a warning) and mean dl-din-5008-b." },
+        "firmName": { "type": "string", "maxLength": 200, "pattern": "^[^\\r\\n]*$" },
+        "strapline": { "type": "string", "maxLength": 200, "pattern": "^[^\\r\\n]*$" },
+        "senderLine": { "type": "string", "maxLength": 200, "pattern": "^[^\\r\\n]*$", "description": "The small return address line printed inside the window above the address." },
+        "addressTo": {
+          "oneOf": [
+            { "type": "string", "maxLength": 2000 },
+            { "type": "array", "items": { "type": "string" }, "maxItems": 200 }
+          ],
+          "description": "The addressee, a string with newlines or a list of lines; 2000 characters at most once joined."
+        },
+        "footerLines": {
+          "oneOf": [
+            { "type": "string", "maxLength": 1000 },
+            { "type": "array", "items": { "type": "string" }, "maxItems": 200 }
+          ]
+        },
+        "showGuides": { "type": "boolean", "default": false, "description": "Print the window outline and full-width fold lines." },
+        "accent": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "default": "#1a4f8c" },
+        "logo": {
+          "type": "object",
+          "required": ["path"],
+          "additionalProperties": false,
+          "properties": {
+            "path": { "type": "string", "minLength": 1, "description": "A PNG or JPEG of at most 4 MB inside the base folder (the request file's folder, or --base-dir)." },
+            "shape": { "enum": ["square", "circle"], "default": "square" },
+            "sizeMm": { "type": "number", "minimum": 8, "maximum": 30, "default": 16, "description": "Values outside 8 to 30 are set to the nearest limit with a warning." }
+          }
+        }
+      }
+    }
+  }
+}

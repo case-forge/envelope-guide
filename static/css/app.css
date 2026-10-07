@@ -1,0 +1,478 @@
+/* Generated file, do not edit: this repository is refreshed as a whole with each release. */
+/* Single source of truth for every product's colour, shadow and radius tokens.
+ * The home page, Chambers Finder, BundleTool, Envelope Guide, Contact and
+ * Privacy all draw from this file, so a token added or changed here changes
+ * everywhere at once.
+ */
+
+:root {
+  color-scheme: dark;
+  --bg: #0e1014;
+  --surface: #13161c;
+  --card: #1c1f27;
+  --orange: #e8610c;
+  /* Background of a filled button or badge carrying white text. #e8610c is 3.42:1 with white,
+     under the 4.5 floor; #c04f08 (the shade of BundleTool's Add Documents button and the radius chips) is 4.81:1. */
+  --orange-fill: #c04f08;
+  --orange-soft: rgba(232, 97, 12, 0.15);
+  --accent-bg: rgba(232, 97, 12, 0.07);
+  --accent-bg-mid: rgba(232, 97, 12, 0.20);
+  --accent-strong: rgba(232, 97, 12, 0.18);
+  --accent-border: rgba(232, 97, 12, 0.26);
+  --accent-focus: rgba(232, 97, 12, 0.18);
+  --text: #f0ebe3;
+  --text-dim: rgba(240, 235, 227, 0.66);
+  /* It carries the status-block captions and the radius label, so it must
+     clear the 4.5 floor: #8f939d is 5.36:1 on --card and still reads as the
+     quiet ink of the pair. */
+  --muted: #8f939d;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-mid: rgba(255, 255, 255, 0.12);
+  --green: #2ba870;
+  --red: #c03535;
+  --amber: #d4920a;
+  --shadow: 0 20px 44px rgba(0, 0, 0, 0.45);
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f0ebe1;
+  --surface: #faf6ee;
+  --card: #ffffff;
+  --orange: #1a4f8c;
+  --orange-fill: var(--orange);
+  --orange-soft: rgba(26, 79, 140, 0.09);
+  --accent-bg: rgba(26, 79, 140, 0.07);
+  --accent-bg-mid: rgba(26, 79, 140, 0.13);
+  --accent-strong: rgba(26, 79, 140, 0.18);
+  --accent-border: rgba(26, 79, 140, 0.26);
+  --accent-focus: rgba(26, 79, 140, 0.18);
+  --text: #1f2933;
+  --text-dim: rgba(31, 41, 51, 0.72);   /* 0.65 would be 4.41:1 on --bg, under the 4.5 floor */
+  --muted: #5b6773;
+  --border: rgba(58, 68, 76, 0.13);
+  --border-mid: rgba(58, 68, 76, 0.24);
+  --green: #1f6a52;
+  --red: #8b2e2e;
+  --amber: #9a6700;
+  --shadow: 0 18px 38px rgba(26, 79, 140, 0.11);
+  --shadow-sm: 0 4px 16px rgba(26, 79, 140, 0.07);
+}
+
+/* One type scale for every page. A size is picked by what the text is, so the same kind of
+   text is the same size on every page. */
+:root {
+  --fs-tool-title: 46px;   /* the tool name on its own page (Chambers Finder, BundleTool) */
+  --fs-page-title: 35.2px; /* Contact, Privacy, Success, 404, Guide, Envelope Guide */
+  --fs-page-title-fluid: clamp(28px, 7vw, var(--fs-page-title)); /* a page title on a phone: the same on every page */
+  --fs-large: 21.6px;      /* the wordmark, a court's name, an empty-state message */
+  --fs-heading: 19px;      /* section and step headings, orb names */
+  --fs-body: 16px;         /* body text, inputs, selects, textareas, buttons, menu rows */
+  --fs-label: 14.4px;      /* form labels, secondary text, intro lines, compact controls */
+  --fs-caption: var(--fs-label); /* hints, helper text, toasts, footer: the same size as a label, told apart by weight and colour */
+  --fs-micro: 12.5px;      /* only uppercase table and group headings, badges, and the menu's tool tiles */
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Without this, a page just past the scroll threshold (privacy, with its
+   long policy text) reserves 15 to 17px for a scrollbar that a shorter page
+   does not, so centred content sits a few pixels further left on the taller
+   page, purely because the available width differs. Reserving the gutter
+   always means every page centres against the same width whatever its own
+   content height. */
+html { scrollbar-gutter: stable; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--orange); text-decoration: none; }
+
+/* Settings modal, reached from the Settings entry of the header menu on the home page.
+ * The menu itself lives in shared/drawer.css. */
+
+/* The Settings modal, reached from the drawer's Settings entry. A plain
+   centred-card overlay, not a variant of .drawer-panel: it holds real
+   controls (switches), not a list of links, and needs its own backdrop
+   because the drawer closes underneath it. */
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.45);
+}
+.settings-overlay[hidden] { display: none; }
+.settings-card {
+  width: 100%;
+  max-width: 360px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+/* The same light-mode beige background as .drawer-panel (shared/drawer.css),
+   for the same reason. */
+[data-theme="light"] .settings-card { background: var(--bg); }
+.settings-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.settings-card-head h2 { font-size: var(--fs-heading); font-weight: 700; color: var(--text); margin: 0; }
+.settings-close {
+  background: none;
+  border: none;
+  padding: 4px;
+  border-radius: 6px;
+  color: var(--text-dim);
+  cursor: pointer;
+  line-height: 0;
+}
+.settings-close:hover { color: var(--orange); background: var(--accent-bg-mid); }
+.settings-section { padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--border); }
+.settings-section:first-of-type { border-top: none; margin-top: 6px; }
+.settings-section h3 { font-size: var(--fs-label); font-weight: 700; color: var(--text); margin: 0 0 4px; }
+.settings-hint { font-size: var(--fs-caption); color: var(--text-dim); margin: 0 0 10px; line-height: 1.5; }
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: var(--fs-label);
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* A checkbox styled as a track-and-thumb switch: the input itself stays in
+   the DOM (visually hidden, not display:none) so it keeps native keyboard
+   and screen-reader behaviour; only its paint is replaced. */
+.settings-switch { position: relative; display: inline-block; width: 34px; height: 20px; flex: 0 0 auto; }
+.settings-switch input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.settings-switch-track {
+  position: absolute;
+  inset: 0;
+  background: var(--border-mid);
+  border-radius: 999px;
+  transition: background 0.15s;
+  /* Purely decorative: without this it sits on top of the input (later
+     in DOM order, same inset:0 box) and silently swallows every click. */
+  pointer-events: none;
+}
+.settings-switch-track::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--card);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s;
+}
+.settings-switch input:checked + .settings-switch-track { background: var(--orange); }
+.settings-switch input:checked + .settings-switch-track::before { transform: translateX(14px); }
+.settings-switch input:focus-visible + .settings-switch-track { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* The return-to-top button's rules are in shared/back-to-top.css, one copy
+   for every product. */
+
+/* The tool layout. Layout only; the palette comes from home.css, so a tool
+   is visibly the same material as the rest of the site without restating a
+   single colour.
+
+   One stylesheet, shared by the tool pages that use it, rather than one per
+   tool. The selectors keep the `lh-` prefix: renaming about 60 of them would
+   risk a missed rule for no visible gain. */
+:root { --ascend-half: 520px; }   /* half of .lh's 1040px, for the shared back-to-top */
+.lh { max-width: 1040px; width: 100%; margin: 0 auto; padding: 8px 18px 48px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* The title shell: the same treatment as Chambers Finder's .hero and
+   BundleTool's .bt-hero (a step up from --bg, one step below the --card
+   panels further down the page), so the tool pages read as one material
+   rather than the title sitting bare on the page background. */
+.lh-hero { background: var(--surface); border-radius: var(--radius); padding: 14px 26px 20px; margin-bottom: 18px; }
+.lh-title { font-size: var(--fs-page-title-fluid); font-weight: 800; letter-spacing: -0.025em; color: var(--text); }
+.lh-sub { color: var(--text-dim); font-size: var(--fs-label); margin: 6px 0 0; }
+
+.lh-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+@media (max-width: 860px) { .lh-grid { grid-template-columns: 1fr; } }
+
+.lh-form, .lh-preview { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 20px; }
+/* Light mode only. var(--card) is plain white here, which would pad a
+   visible white margin round the beige paper preview. Both panels take
+   var(--surface) instead (var(--bg) is the page ground, a different beige),
+   so the whole page reads as one beige surface rather than a beige preview
+   sitting in a white form. */
+[data-theme="light"] .lh-preview, [data-theme="light"] .lh-form { background: var(--surface); }
+.lh-field { display: block; margin-bottom: 14px; }
+.lh-field > span { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--text); margin-bottom: 5px; }
+.lh-field > span small { font-weight: 400; color: var(--muted); }
+.lh-field small { display: block; margin-top: 4px; font-size: var(--fs-caption); color: var(--muted); }
+/* The description under the Envelope choice (one per envelope standard) is 16px, larger than a caption, so it reads easily. */
+#lh-envelope-note { font-size: var(--fs-body); }
+/* A plain warning under the Addressee: characters that cannot be printed, a line wider than the window, a blank addressee. */
+.lh-problems { margin: -6px 0 14px; padding: 8px 12px; border-radius: 8px; font-size: var(--fs-label); line-height: 1.5;
+  color: #7a4b00; background: rgba(232, 160, 12, 0.14); border: 1px solid rgba(232, 160, 12, 0.5); }
+[data-theme="dark"] .lh-problems { color: #f0c36a; background: rgba(232, 160, 12, 0.12); }
+.lh-problems[hidden] { display: none; }
+.lh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* A Material cutout: a field reads as a hole in the card revealing the
+   page underneath, not a same-colour panel inside it. So it is --bg, not
+   --surface, and visibly distinct from .lh-form's own --surface background.
+   (Chambers Finder's #search-input is a separate design: --surface with a
+   visible resting border.) The border is transparent at rest, so hover and
+   focus are the only time a ring appears. The elevation (shadow) lives one
+   level up, on .lh-form itself: a field has no shadow of its own inside an
+   already-elevated card. */
+.lh-form input[type="text"], .lh-form textarea, .lh-form select {
+  width: 100%; padding: 9px 11px; font: inherit; font-size: var(--fs-body);
+  background: var(--bg);
+  color: var(--text); border: 1px solid transparent; border-radius: var(--radius-sm);
+  transition: border-color .15s, box-shadow .15s; resize: vertical;
+}
+.lh-form input:hover:not(:focus), .lh-form textarea:hover:not(:focus), .lh-form select:hover:not(:focus) { border-color: var(--border-mid); }
+/* Chromium draws a select's native arrow flush against the field's right
+   edge regardless of padding-right, touching the rounded corner. A custom
+   arrow is the only way to move it: padding alone changes the gap between
+   text and arrow, not the arrow's own position. */
+.lh-form select {
+  appearance: none; -webkit-appearance: none;
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath fill='%235b6773' d='M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 24px 24px;
+}
+[data-theme="dark"] .lh-form select {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath fill='%236a6e7a' d='M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z'/%3E%3C/svg%3E");
+}
+.lh-form input:focus, .lh-form textarea:focus, .lh-form select:focus {
+  outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px var(--accent-focus);
+}
+/* A round swatch reads as "pick the colour" more directly than the default
+   rectangle, and doubles as a live preview of the chosen accent. Equal
+   width/height is required for border-radius:50% to render a circle
+   rather than an oval.
+   Rounding the input itself only clips its own border and outline:
+   Chromium does NOT clip the native colour chip to the input's
+   border-radius, so without the pseudo-element rules below the result is a
+   round ring around a square chip, not a circle.
+   Firefox's swatch is a real child element (::-moz-color-swatch);
+   Chromium/WebKit split it into a wrapper + swatch pair, and the radius
+   has to go on the swatch itself, not the wrapper, or the corners keep
+   getting clipped to the wrapper's own (square) padding box. */
+.lh-form input[type="color"] {
+  width: 34px; height: 34px; padding: 2px; cursor: pointer;
+  border-radius: 50%;
+}
+.lh-form input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+.lh-form input[type="color"]::-webkit-color-swatch { border: none; border-radius: 50%; }
+.lh-form input[type="color"]::-moz-color-swatch { border: none; border-radius: 50%; }
+
+/* align-items:start, not flex-end. Bottom-aligning two fields whose LABELS
+   are different heights (one wraps, the other does not) would stagger the
+   labels instead of the inputs, which is the pair a reader scans. Starting
+   them together lines the labels up and lets the inputs sit where their own
+   content puts them. */
+.lh-row { display: flex; align-items: start; gap: 18px; flex-wrap: wrap; }
+/* Equal share of the row, so a number input is not a third the width of the
+   select beside it. min-width keeps them from collapsing before the wrap. */
+.lh-field-sm { margin-bottom: 0; flex: 1 1 0; min-width: 9rem; }
+.lh-field-sm input, .lh-field-sm select { width: 100%; }
+.lh-field-grow { flex: 1 1 auto; min-width: 0; margin-bottom: 0; }
+/* The label block gets a fixed two-line height in a row, so a wrapping hint
+   under one label cannot push its input below its neighbour's. */
+.lh-row .lh-field > span { min-height: 2.4em; }
+.lh-check { display: flex; align-items: center; gap: 8px; font-size: var(--fs-label); color: var(--text-dim); cursor: pointer; }
+/* Logo and Accent share one row: the row beside Logo has room to spare,
+   where the row of the guides checkbox and the three action icons does
+   not. */
+.lh-logo-accent-row { align-items: start; gap: 14px; }
+.lh-logo-accent-row .lh-field-sm { flex: 0 0 auto; min-width: 0; }
+
+.lh-actions { display: flex; align-items: center; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+/* Pushed to the far right of the row rather than sitting next to History
+   with the same 10px gap the buttons use between themselves, so the three
+   actions read as one cluster, separate from this toggle. */
+.lh-guides-check { margin-left: auto; }
+.lh-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; font: inherit; font-size: var(--fs-body); font-weight: 600; cursor: pointer;
+  border-radius: var(--radius-sm); border: 1px solid transparent;
+  background: color-mix(in srgb, var(--text) 5%, var(--card)); color: var(--text-dim);
+  transition: border-color .14s, color .14s, background .14s;
+}
+/* Icons ahead of "Print"/"History" give them the same visual weight as
+   "Download", which is otherwise the only wide label in the row. */
+.lh-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+.lh-btn:hover { border-color: var(--orange); color: var(--text); }
+
+/* Download/Print/History: bare icon buttons, no pill/background.
+   Download keeps --orange on the icon itself so the primary action still
+   reads as the primary one without needing a filled box to say so. */
+.lh-icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; padding: 0;
+  background: none; border: none; border-radius: var(--radius-sm);
+  color: var(--text-dim); cursor: pointer;
+  transition: background .14s, color .14s;
+}
+/* As with #lh-noviewer below: the plain .lh-icon-btn class selector ties
+   with the browser's own [hidden] rule on specificity and wins by loading
+   later in the cascade, so without this #lh-logo-clear's hidden attribute
+   (toggled in app.js's setLogo()) would be ignored and the button would
+   show whether or not a logo is present. */
+.lh-icon-btn[hidden] { display: none; }
+.lh-icon-btn { font-size: var(--fs-body); }
+.lh-icon-btn svg { width: 18px; height: 18px; }
+.lh-icon-btn:hover { background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text); }
+.lh-icon-btn:disabled { opacity: 0.5; cursor: default; pointer-events: none; }
+#lh-download.lh-icon-btn { color: var(--orange); }
+/* The same bare-icon treatment as Download, Print and History for the
+   logo-remove button, just smaller: it sits inline next to a file input,
+   not in its own row. */
+.lh-icon-btn-sm { width: 28px; height: 28px; }
+.lh-icon-btn-sm svg { width: 14px; height: 14px; }
+.lh-btn:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* The sheet itself is white, drawn by pdf.js straight onto #lh-canvas,
+   which is opaque and fills this box completely, so in the normal case this
+   background never shows through the paper. The box's own colour is app
+   CHROME, not a paper simulation: a fixed beige matching the settings panel,
+   not var(--surface) or var(--card) (light #ffffff/#faf6ee, dark
+   #1c1f27/#13161c), so the box round the preview reads as the same material
+   as the rest of the app rather than a separate near-white or near-black
+   plate behind it. #f0ebe1 is the --bg tone of home.css. */
+.lh-paper { position: relative; width: 100%; aspect-ratio: 210 / 297; background: #f0ebe1; border-radius: var(--radius-sm); overflow: hidden; }
+/* Rendered by pdf.js onto this canvas, not a browser-native PDF <iframe>,
+   which varies by browser (Firefox shows its own PDF.js toolbar with
+   annotation tools; Brave can show nothing at all, "set to download PDFs")
+   and cannot be restyled for dark mode. */
+#lh-canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }   /* fill, not contain: the box is locked to the page's own ratio, and contain can leave a device-pixel gap at the edge on some screens */
+/* The "black page, like Word's dark mode" effect: the PDF itself stays a
+   real white page (what prints is what's drawn, never touched), this just
+   inverts how the *screen* shows it. Plain invert() would also flip the
+   accent colour's hue against the theme's own dark orange/blue, so
+   hue-rotate(180deg) brings it back the right way round, for both accents.
+   It applies whatever is on the sheet: the canvas never draws a logo (see
+   #lh-logo-overlay below), so inverting it never inverts a firm's real
+   brand colours. */
+[data-theme="dark"] #lh-canvas { filter: invert(0.92) hue-rotate(180deg); }
+/* What white becomes under that filter (rgb 20,20,20). Any sub-pixel of the box the canvas does not
+   cover then matches the dark page instead of showing the light app colour as a thin line (Brave on a
+   phone shows one; Firefox does not). */
+[data-theme="dark"] .lh-paper { background: #141414; }
+/* The logo, drawn as its own DOM layer instead of baked into the PDF the
+   preview canvas renders (app.js passes renderLogo:false for this canvas
+   only; the downloaded or printed PDF embeds it as normal). Positioned by
+   app.js as percentages of .lh-paper's own box, matching envelope.js's mm
+   placement (20mm left, 14mm top, logoSizeMm square) one to one, since
+   .lh-paper's aspect ratio is locked to the same 210:297 A4 ratio. The
+   invert filter above never touches it, because it is a sibling of
+   #lh-canvas, not a descendant, so it keeps the firm's real colours in both
+   themes. */
+.lh-logo-overlay { position: absolute; overflow: hidden; }
+.lh-logo-overlay img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.lh-logo-overlay.lh-logo-overlay--circle { border-radius: 50%; }
+.lh-logo-overlay.lh-logo-overlay--circle img { object-fit: cover; }
+#lh-noviewer { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; background: var(--surface); }
+/* The ID selector above always beats the UA [hidden] rule's low-specificity
+   `display: none`, so without its own [hidden] override #lh-noviewer would
+   paint over a working preview. */
+#lh-noviewer[hidden] { display: none; }
+#lh-noviewer p { font-size: var(--fs-label); color: var(--text-dim); }
+/* The error code under the note: small, and easy to select whole for a report. */
+#lh-noviewer .lh-error-code { font-size: var(--fs-micro, 11px); margin-top: 6px; user-select: all; }
+
+/* ── Logo controls ─────────────────────────────────────────────────────── */
+.lh-logo-row:not([hidden]) { display: flex; align-items: center; gap: 8px; }
+/* The native file input keeps its natural width: stretched to fill the
+   row, its own "Choose File" button and filename would sit left-aligned in
+   the box, leaving empty space before Remove. #lh-logo-note sits inline and
+   fills the room that is left with something useful. */
+.lh-logo-row input[type="file"] { flex: 0 1 auto; min-width: 0; font-size: var(--fs-label); }
+.lh-logo-row #lh-logo-note { flex: 1; min-width: 0; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* A logo that was not used: the reason and its error code wrap rather than being cut short. */
+.lh-logo-row #lh-logo-note[data-error] { white-space: normal; overflow: visible; }
+/* :not([hidden]), because a bare `display: flex` beats the hidden
+   attribute's UA `display: none` and would keep the panel on screen after
+   Remove. */
+.lh-logo-opts:not([hidden]) {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.lh-logo-opts .lh-field-sm { flex: 1 1 8rem; min-width: 7rem; }
+.lh-logo-opts input[type="range"] { width: 100%; }
+/* Phones only: the Size slider drops onto its own line under Square and
+   Circle and gets a short track. Left at its natural width it made the form
+   wider than the screen, and the whole page slid sideways once a logo was
+   chosen. min-width: 0 on the form lets the grid shrink it to fit. */
+@media (max-width: 600px) {
+  .lh-form { min-width: 0; }
+  .lh-logo-opts .lh-field-sm { flex: 1 1 100%; min-width: 0; }
+  .lh-logo-opts input[type="range"] { width: 100%; max-width: 180px; min-width: 0; }
+}
+.lh-btn-xs { padding: 3px 10px; font-size: var(--fs-label); }
+#lh-logo-note { display: block; margin-top: 6px; }
+
+/* ── History modal ─────────────────────────────────────────────────────── */
+/* Wider than .settings-card's default 360px (settings' own two toggle rows
+   fit that; a label + timestamp + two buttons per entry does not). */
+#lh-history-modal .settings-card { max-width: 440px; }
+.lh-history-list { margin-top: 12px; max-height: 50vh; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.lh-history-empty { font-size: var(--fs-label); color: var(--muted); text-align: center; padding: 12px 0; }
+.lh-history-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.lh-history-item-main { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.lh-history-item-label { font-size: var(--fs-label); font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lh-history-item-meta { font-size: var(--fs-micro); color: var(--muted); }
+.lh-history-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.lh-history-delete { color: var(--muted); }
+.lh-history-delete:hover { border-color: #c0392b; color: #c0392b; }
+.lh-history-clear-row { margin-top: 12px; display: flex; justify-content: flex-end; }
+.lh-history-clear-row [hidden] { display: none; }
+
+/* Touch screens: the labels holding Envelope Guide's checkboxes are at least 40px tall to tap. */
+@media (pointer: coarse) {
+  .lh-check { min-height: 40px; }
+}
+
+/* Touch: the accent colour swatch is a native input (no pseudo-element hit area is possible), so it is grown to 40px. */
+@media (hover: none) {
+  .lh-form input[type="color"] { width: 40px; height: 40px; }
+}
+
+/* This repository's footer: one line linking to the rest of the tools. */
+.sa-footer { margin-top: auto; padding: 24px 18px calc(24px + env(safe-area-inset-bottom)); text-align: center; color: var(--text-dim); font-size: var(--fs-label); }
+.sa-footer a { color: var(--orange); }

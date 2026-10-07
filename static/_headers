@@ -1,0 +1,18 @@
+# Generated file, do not edit: this repository is refreshed as a whole with each release.
+# Security headers for every page, and the policy the tool is built for: no inline script or style, nothing from another
+# host, workers only from this site. HSTS is left to the host, because it depends on how the domain is set up.
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; manifest-src 'self'; connect-src 'self' blob:; worker-src 'self' blob:; frame-src blob:; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
+
+# The offline worker is never served from a cache, or a deploy would go unnoticed.
+/sw.js
+  Cache-Control: no-cache
+/js/*
+  Cache-Control: no-cache
+/vendor/*
+  Cache-Control: no-cache

@@ -1,0 +1,13 @@
+{{- /* Generated file, do not edit: this repository is refreshed as a whole with each release.
+     Registers the offline service worker. The worker is written into public/sw.js by scripts/build-offline.mjs after
+     hugo (it needs the built files to list and hash them); here Hugo publishes a harmless stand-in at the same path so
+     a plain hugo build never leaves a missing or stale worker. Nothing registers under hugo server, or when
+     [params.offline] enabled is false (the kill switch: the next deploy ships the stand-in for real and every browser
+     that had the worker removes it on its next visit). */ -}}
+{{- $on := true -}}
+{{- with site.Params.offline -}}{{- if isset . "enabled" -}}{{- $on = .enabled -}}{{- end -}}{{- end -}}
+{{- $stand := resources.FromString "sw.js" (partial "offline/standin.js" .) -}}
+{{- $stand.Publish -}}
+{{- if and $on (not hugo.IsServer) -}}
+<script src="{{ "js/shared/sw-register.js" | relURL }}" data-sw="{{ "sw.js" | relURL }}" data-scope="{{ "/" | relURL }}" defer></script>
+{{- end -}}

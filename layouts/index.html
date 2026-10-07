@@ -1,0 +1,134 @@
+{{/* Generated file, do not edit: this repository is refreshed as a whole with each release. */}}
+{{ define "title" }}Envelope Guide{{ end }}
+{{ define "extrahead" }}
+<link rel="manifest" href="{{ "manifest.json" | relURL }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ "apple-touch-icon.png" | relURL }}">
+{{ partial "offline-register.html" . }}
+{{ end }}
+{{ define "main" }}
+<main id="main-content" class="lh">
+  <section class="lh-hero">
+    <h1 class="lh-title">Envelope Guide</h1>
+    <p class="lh-sub">
+      Puts your address block where your window envelope expects it. Envelope manufacturers
+      vary by a few millimetres, so the only reliable check is the envelope in your hand.
+      The preview sheet is A4.
+    </p>
+  </section>
+
+  <div class="lh-grid">
+    <section class="lh-form" aria-label="Envelope details">
+      <label class="lh-field">
+        <span>Envelope</span>
+        <select id="lh-envelope"></select>
+        <small id="lh-envelope-note"></small>
+      </label>
+
+      <label class="lh-field">
+        <span>Firm name</span>
+        <input type="text" id="lh-firm" maxlength="200" placeholder="A. Solicitors">
+      </label>
+
+      <label class="lh-field">
+        <span>Strapline</span>
+        <input type="text" id="lh-strap" maxlength="200" placeholder="Family and children law">
+      </label>
+
+      <label class="lh-field">
+        <span>Sender line</span>
+        <input type="text" id="lh-sender" maxlength="200" placeholder="A. Solicitors, 1 Example Street, London EC1A 1AA">
+      </label>
+
+      <label class="lh-field">
+        <span>Addressee</span>
+        <textarea id="lh-address" rows="5" maxlength="2000" placeholder="Ms A Sample&#10;12 Example Road&#10;London&#10;N1 1AA"></textarea>
+      </label>
+      <p id="lh-problems" class="lh-problems" role="status" aria-live="polite" hidden></p>
+
+      <label class="lh-field">
+        <span>Footer</span>
+        <textarea id="lh-footer" rows="3" maxlength="1000" placeholder="1 Example Street, London EC1A 1AA&#10;020 7000 0000 · hello@example.com&#10;Authorised and regulated by the SRA, no. 000000"></textarea>
+      </label>
+
+      <div class="lh-row lh-logo-accent-row">
+        <div class="lh-field lh-field-grow">
+          <span id="lh-logo-label">Logo <small>(PNG or JPG)</small></span>
+          <div class="lh-logo-row">
+            <input type="file" id="lh-logo" accept="image/png,image/jpeg" aria-labelledby="lh-logo-label">
+            <button type="button" id="lh-logo-clear" class="lh-icon-btn lh-icon-btn-sm" hidden aria-label="Remove logo" title="Remove logo">
+              {{ partial "icon.html" (dict "name" "delete") }}
+            </button>
+            <small id="lh-logo-note"></small>
+          </div>
+          <div class="lh-logo-opts" id="lh-logo-opts" role="group" aria-label="Logo shape and size" hidden>
+            <label class="lh-check">
+              <input type="radio" name="lh-logo-shape" value="square" checked>
+              <span>Square</span>
+            </label>
+            <label class="lh-check">
+              <input type="radio" name="lh-logo-shape" value="circle">
+              <span>Circle</span>
+            </label>
+            <label class="lh-field lh-field-sm">
+              <span>Size</span>
+              <input type="range" id="lh-logo-size" min="10" max="30" step="1" value="16">
+            </label>
+          </div>
+        </div>
+        <label class="lh-field lh-field-sm">
+          <span>Accent</span>
+          <input type="color" id="lh-accent" value="#1a4f8c">
+        </label>
+      </div>
+
+      <div class="lh-actions">
+        <button type="button" id="lh-download" class="lh-icon-btn" aria-label="Download PDF" title="Download the envelope sheet as a PDF">
+          {{ partial "icon.html" (dict "name" "save") }}
+        </button>
+        <button type="button" id="lh-print" class="lh-icon-btn" aria-label="Print" title="Print the envelope sheet">
+          {{ partial "icon.html" (dict "name" "print") }}
+        </button>
+        <button type="button" id="lh-history-open" class="lh-icon-btn" aria-label="Rewind" title="Rewind to an earlier envelope">
+          {{ partial "icon.html" (dict "name" "history") }}
+        </button>
+        <label class="lh-check lh-guides-check">
+          <input type="checkbox" id="lh-guides" checked>
+          <span>Print window and fold guides</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="lh-preview" aria-label="Preview">
+      <div class="lh-paper">
+        <canvas id="lh-canvas" role="img" aria-label="Envelope preview"></canvas>
+        <div id="lh-logo-overlay" class="lh-logo-overlay" hidden aria-hidden="true">
+          <img id="lh-logo-overlay-img" alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
+        </div>
+        <div id="lh-noviewer" hidden>
+          <p>The preview could not be drawn. The sheet is still built exactly
+             as these fields describe. Use Download PDF or Print.</p>
+          <p id="lh-noviewer-code" class="lh-error-code"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div id="lh-history-modal" class="settings-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="lh-history-title">
+  <div class="settings-card">
+    <div class="settings-card-head">
+      <h2 id="lh-history-title">Rewind</h2>
+      <button type="button" class="settings-close" id="lh-history-close" aria-label="Close">
+        {{ partial "icon.html" (dict "name" "close") }}
+      </button>
+    </div>
+    <p class="settings-hint">Every envelope you've downloaded or printed from this browser.</p>
+    <div id="lh-history-list" class="lh-history-list"></div>
+    <div class="lh-history-clear-row">
+      <button type="button" id="lh-history-clear" class="lh-btn lh-btn-xs lh-history-delete" hidden>Clear history</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="{{ "js/envelope-guide/app.js" | relURL }}"></script>
+{{ end }}

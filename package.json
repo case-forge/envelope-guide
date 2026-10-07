@@ -1,0 +1,22 @@
+{
+  "name": "envelope-guide",
+  "version": "1.0.0",
+  "description": "Puts the address block of a letter where a window envelope expects it: a web page and a command line tool that make the sheet as a PDF",
+  "type": "module",
+  "private": true,
+  "license": "MPL-2.0",
+  "bin": {
+    "envelope-guide": "envelope-guide-cli/cli.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --import ./scripts/node-compat.mjs --test tests/*.test.mjs",
+    "build": "hugo --gc && OFFLINE_STRICT=1 node scripts/build-offline.mjs public",
+    "start": "hugo server"
+  },
+  "devDependencies": {
+    "@cantoo/pdf-lib": "2.6.5"
+  }
+}
