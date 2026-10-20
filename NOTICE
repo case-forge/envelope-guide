@@ -1,0 +1,74 @@
+Envelope Guide
+Copyright (c) 2026 CaseForge
+
+Licensed under the Mozilla Public License, Version 2.0 (LICENSE). This file lists the third party components that
+ship in this repository, each under its own licence, and nothing that is not here, and THIRD-PARTY-LICENSES/ holds
+the full licence text of each. The licence strings of the npm distributed components were read from the registry
+metadata for the exact pinned versions.
+
+Runtime libraries (self hosted under static/vendor/ and served from this site; nothing is fetched from another host)
+--------------------------------------------------------------------------------------------------------------
+
+@cantoo/pdf-lib 2.6.5: https://github.com/cantoo-scribe/pdf-lib
+Copyright (c) 2019 Andrew Dillon; fork maintained by Cantoo
+MIT
+
+    The PDF engine: draws the sheet, embeds the logo and the fonts. The packages bundled inside it are listed below;
+    the bundle keeps the notices that crypto-js's RIPEMD-160 and counter mode files carry.
+
+@pdf-lib/fontkit 1.1.1: https://github.com/Hopding/fontkit
+Copyright (c) 2014-2017 Devon Govett
+MIT
+
+    Font embedding for the wider letter set (Liberation Sans). The packages bundled inside it are listed below.
+
+pdfjs-dist 4.0.379: https://github.com/mozilla/pdf.js
+Copyright (c) Mozilla and individual contributors
+Apache License, Version 2.0
+
+    Draws the live preview onto a canvas. Vendored as static/vendor/pdfjs.mjs and pdfjs.worker.mjs
+    (the site-wide shared copy). isEvalSupported: false is passed at the call site, so CVE-2024-4367
+    (eval-based code execution in pdf.js before 4.2.67) does not apply here even though this pinned
+    version predates that fix; the Content-Security-Policy also carries no unsafe-eval.
+
+Components bundled inside the vendored files
+--------------------------------------------
+
+The packages esbuild put inside the two bundled libraries above (read from esbuild's own list of inputs, rebuilt with
+the pinned versions), with the licence each declares. All are permissive and none is modified.
+
+    @pdf-lib/standard-fonts 1.0.0: MIT  (in cantoo-pdf-lib.js)
+    @pdf-lib/upng 1.0.1: MIT  (in cantoo-pdf-lib.js)
+    color 4.2.3: MIT  (in cantoo-pdf-lib.js)
+    color-convert 2.0.1: MIT  (in cantoo-pdf-lib.js)
+    color-name 1.1.4: MIT  (in cantoo-pdf-lib.js)
+    color-string 1.9.1: MIT  (in cantoo-pdf-lib.js)
+    crypto-js 4.2.0: MIT  (in cantoo-pdf-lib.js)
+    html-entities 2.6.0: MIT  (in cantoo-pdf-lib.js)
+    is-arrayish 0.3.4: MIT  (in cantoo-pdf-lib.js)
+    node-html-better-parser 1.5.9: MIT  (in cantoo-pdf-lib.js)
+    pako 1.0.11: MIT AND Zlib  (in cantoo-pdf-lib.js, pdf-lib-fontkit.js)
+    simple-swizzle 0.2.4: MIT  (in cantoo-pdf-lib.js)
+    tslib 2.8.1: 0BSD  (in cantoo-pdf-lib.js)
+
+Font
+----
+
+Liberation Sans 2.1.5: SIL Open Font License 1.1
+Digitized data copyright (c) 2010 Google Corporation, with Reserved Font Names Arimo, Tinos and Cousine;
+copyright (c) 2012 Red Hat, Inc., with Reserved Font Name Liberation.
+
+    static/fonts/liberation-sans/LiberationSans-Regular.ttf and LiberationSans-Bold.ttf, shipped unmodified with
+    upstream's licence (OFL.txt), AUTHORS and ChangeLog. The sheet is drawn in Liberation Sans only when an address
+    uses letters the built-in Helvetica lacks (Welsh, Polish, Turkish and similar); the fonts are then fetched from this
+    site and embedded into the PDF as a subset by the fontkit library above. Source: the Liberation Fonts project's
+    release tarball liberation-fonts-ttf-2.1.5.tar.gz, sha256 7191c669bf38899f73a2094ed00f7b800553364f90e2637010a69c0e268f25d0.
+
+Icons and marks
+---------------
+
+The interface icons (delete, save, print, history, close) are Material Symbols (Google, Apache-2.0): each is a single
+path from @material-symbols/svg-400, inlined into the page as SVG. Nothing is fetched at runtime.
+
+The CaseForge name, the anvil mark and the favicon are CaseForge's, used to say who made the tool. They are not
+covered by the licence of the code: do not use them to suggest that your own copy comes from CaseForge.

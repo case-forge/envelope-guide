@@ -1,0 +1,15 @@
+# Generated file, do not edit: this repository is refreshed as a whole with each release.
+# The base URL is a placeholder: set it (or pass --baseURL) where the site is deployed. The site must be served at
+# the root of its own host name, because its scripts and styles are addressed as /js/..., /css/... and /vendor/....
+baseURL = "https://example.invalid/"
+locale = "en-GB"
+title = "Envelope Guide"
+disableKinds = ["taxonomy", "term", "RSS"]
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+# Offline mode (README). Set enabled = false and deploy to switch it off everywhere: every browser that had the
+# service worker removes it and its caches on its next visit.
+[params.offline]
+  enabled = true

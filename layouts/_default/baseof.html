@@ -1,0 +1,22 @@
+{{/* Generated file, do not edit: this repository is refreshed as a whole with each release. */}}
+<!DOCTYPE html>
+<html lang="en-GB" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ block "title" . }}Envelope Guide{{ end }}</title>
+<meta name="description" content="Puts the address block exactly where a window envelope expects it. Five envelope presets, a live preview, and a PDF or a print. Everything is drawn in your browser.">
+<meta name="theme-color" content="#0e1014">
+<link rel="icon" type="image/svg+xml" href="{{ "img/caseforge-favicon-dark.svg" | relURL }}" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="{{ "img/caseforge-favicon-light.svg" | relURL }}" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="{{ "css/app.css" | relURL }}">
+<script src="{{ "js/shared/theme-head.js" | relURL }}"></script>
+{{ block "extrahead" . }}{{ end }}
+</head>
+<body>
+{{ block "main" . }}{{ end }}
+<footer class="sa-footer">
+  <p>More tools at <a href="https://caseforge.uk/">caseforge.uk</a> · <a href="https://caseforge.uk/contact/">Contact</a> · <a href="https://caseforge.uk/privacy/">Privacy</a></p>
+</footer>
+</body>
+</html>
