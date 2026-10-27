@@ -28,11 +28,24 @@
   --muted: #8f939d;
   --border: rgba(255, 255, 255, 0.07);
   --border-mid: rgba(255, 255, 255, 0.12);
+  /* The edge of a text field, select or text area: the text colour mixed in until it is 3:1 against the card or page
+     behind it (WCAG 2.1 SC 1.4.11, Non-text Contrast). A field with only a fill a shade off its background fails that. */
+  --field-edge: color-mix(in srgb, var(--text) 50%, transparent); /* 42% was 3:1 on the old #1c1f27 card; the lighter box card (--box-card) needs 50% */
   --green: #2ba870;
   --red: #c03535;
+  /* Destructive text and icons (delete, remove, clear, reset): 4.5:1 or better on the page and on a box. --red is a fill. */
+  --danger-ink: #f08a8a;
   --amber: #d4920a;
   --shadow: 0 20px 44px rgba(0, 0, 0, 0.45);
   --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
+  /* Boxes (cards, panels, result lists): the paper-cutout look, a ground a tier off the page and a soft lift, with no
+     line drawn round the box. Applied to everything inside #main-content by the rule after the light block, so the
+     header, drawer and footer keep the shared --card / --surface. A box is drawn with var(--card), var(--surface) and
+     var(--box-lift) as usual; it is only inside the page body that the grounds resolve to these values. Only a form
+     field draws an edge (--field-edge, above). */
+  --box-card: #232834;
+  --box-surface: #181c25;
+  --box-lift: 0 1px 2px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.28);
   --radius: 16px;
   --radius-sm: 10px;
 }
@@ -55,12 +68,33 @@
   --muted: #5b6773;
   --border: rgba(58, 68, 76, 0.13);
   --border-mid: rgba(58, 68, 76, 0.24);
+  --field-edge: color-mix(in srgb, var(--text) 56%, transparent);
   --green: #1f6a52;
   --red: #8b2e2e;
+  --danger-ink: #8b2e2e;
   --amber: #9a6700;
   --shadow: 0 18px 38px rgba(26, 79, 140, 0.11);
   --shadow-sm: 0 4px 16px rgba(26, 79, 140, 0.07);
+  --box-card: #ffffff;
+  --box-surface: #f4eee1;
+  --box-lift: 0 1px 2px rgba(31, 41, 51, 0.16), 0 6px 16px rgba(31, 41, 51, 0.1);
 }
+
+/* The page body on every page (BundleTool's Classic palette keeps its own colours). --cf-* are BundleTool Modern's
+   aliases, resolved on <html>, so they are re-pointed here too. The text-field edge (--field-edge) is untouched. */
+html:not([data-palette="classic"]) #main-content {
+  --card: var(--box-card);
+  --surface: var(--box-surface);
+  --cf-card: var(--box-card);
+  --cf-surface: var(--box-surface);
+}
+
+/* Two tiers for the tools' boxes, the same on Chambers Finder, the Envelope Guide and BundleTool (Modern; Classic
+   follows it in its own colours, bundletool.css). The hero is the upper tier, --card; the main panels, cards and
+   tiles under it are --surface. Both lift off the page with --box-lift and draw no line round them (the
+   paper-cutout look): only a form field has an edge. A site's own CSS sets only layout on these. */
+.hero, .lh-hero { background: var(--card); box-shadow: var(--box-lift); }
+.toolbar-card, .status-block, .lh-form, .lh-preview { background: var(--surface); box-shadow: var(--box-lift); }
 
 /* One type scale for every page. A size is picked by what the text is, so the same kind of
    text is the same size on every page. */
@@ -74,6 +108,15 @@
   --fs-label: 14.4px;      /* form labels, secondary text, intro lines, compact controls */
   --fs-caption: var(--fs-label); /* hints, helper text, toasts, footer: the same size as a label, told apart by weight and colour */
   --fs-micro: 12.5px;      /* only uppercase table and group headings, badges, and the menu's tool tiles */
+}
+
+/* Every text field, select and text area on every page (BundleTool's Classic palette keeps its own look) carries the 3:1 edge above, whatever its own sheet says
+   (several drew a borderless "cutout"). !important only on the colour and style, and never while the field has focus,
+   so each page's own focus ring still shows. */
+html:not([data-palette="classic"]) :is(input:not([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="color"], [type="hidden"], [type="submit"], [type="button"], [type="reset"], [type="image"]), select, textarea):not(:focus, :focus-visible) {
+  border-style: solid !important;
+  border-color: var(--field-edge) !important;
+  border-width: 1px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -121,7 +164,6 @@ a { color: var(--orange); text-decoration: none; }
   width: 100%;
   max-width: 360px;
   background: var(--card);
-  border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 18px;
@@ -201,7 +243,7 @@ a { color: var(--orange); text-decoration: none; }
    for every product. */
 
 /* The tool layout. Layout only; the palette comes from home.css, so a tool
-   is visibly the same material as the rest of the site without restating a
+   is visibly the same paper as the rest of the site without restating a
    single colour.
 
    One stylesheet, shared by the tool pages that use it, rather than one per
@@ -213,22 +255,17 @@ a { color: var(--orange); text-decoration: none; }
 
 /* The title shell: the same treatment as Chambers Finder's .hero and
    BundleTool's .bt-hero (a step up from --bg, one step below the --card
-   panels further down the page), so the tool pages read as one material
+   panels further down the page), so the tool pages read as one paper
    rather than the title sitting bare on the page background. */
-.lh-hero { background: var(--surface); border-radius: var(--radius); padding: 14px 26px 20px; margin-bottom: 18px; }
+.lh-hero { border-radius: var(--radius); padding: 14px 26px 20px; margin-bottom: 18px; }
 .lh-title { font-size: var(--fs-page-title-fluid); font-weight: 800; letter-spacing: -0.025em; color: var(--text); }
 .lh-sub { color: var(--text-dim); font-size: var(--fs-label); margin: 6px 0 0; }
 
 .lh-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; align-items: start; }
 @media (max-width: 860px) { .lh-grid { grid-template-columns: 1fr; } }
 
-.lh-form, .lh-preview { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 20px; }
-/* Light mode only. var(--card) is plain white here, which would pad a
-   visible white margin round the beige paper preview. Both panels take
-   var(--surface) instead (var(--bg) is the page ground, a different beige),
-   so the whole page reads as one beige surface rather than a beige preview
-   sitting in a white form. */
-[data-theme="light"] .lh-preview, [data-theme="light"] .lh-form { background: var(--surface); }
+.lh-form, .lh-preview { border-radius: var(--radius); padding: 20px; }
+/* Ground and lift of the hero and the two panels: the shared two tiers (shared/tokens.css). */
 .lh-field { display: block; margin-bottom: 14px; }
 .lh-field > span { display: block; font-size: var(--fs-label); font-weight: 600; color: var(--text); margin-bottom: 5px; }
 .lh-field > span small { font-weight: 400; color: var(--muted); }
@@ -237,12 +274,12 @@ a { color: var(--orange); text-decoration: none; }
 #lh-envelope-note { font-size: var(--fs-body); }
 /* A plain warning under the Addressee: characters that cannot be printed, a line wider than the window, a blank addressee. */
 .lh-problems { margin: -6px 0 14px; padding: 8px 12px; border-radius: 8px; font-size: var(--fs-label); line-height: 1.5;
-  color: #7a4b00; background: rgba(232, 160, 12, 0.14); border: 1px solid rgba(232, 160, 12, 0.5); }
+  color: #7a4b00; background: rgba(232, 160, 12, 0.14); }
 [data-theme="dark"] .lh-problems { color: #f0c36a; background: rgba(232, 160, 12, 0.12); }
 .lh-problems[hidden] { display: none; }
 .lh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* A Material cutout: a field reads as a hole in the card revealing the
+/* A paper cutout: a field reads as a hole in the card revealing the
    page underneath, not a same-colour panel inside it. So it is --bg, not
    --surface, and visibly distinct from .lh-form's own --surface background.
    (Chambers Finder's #search-input is a separate design: --surface with a
@@ -264,17 +301,20 @@ a { color: var(--orange); text-decoration: none; }
 .lh-form select {
   appearance: none; -webkit-appearance: none;
   padding-right: 34px;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath fill='%235b6773' d='M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235b6773' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 8px center;
   background-size: 24px 24px;
 }
 [data-theme="dark"] .lh-form select {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath fill='%236a6e7a' d='M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236a6e7a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
-.lh-form input:focus, .lh-form textarea:focus, .lh-form select:focus {
+.lh-form input:not([type="checkbox"], [type="file"]):focus, .lh-form textarea:focus, .lh-form select:focus {
   outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px var(--accent-focus);
 }
+/* A checkbox and a file picker have no edge to recolour, so the faint ring above was their only focus mark (1.3:1 on the card):
+   they get the solid accent outline every button here has. */
+.lh-form input[type="checkbox"]:focus-visible, .lh-form input[type="file"]:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
 /* A round swatch reads as "pick the colour" more directly than the default
    rectangle, and doubles as a live preview of the chosen accent. Equal
    width/height is required for border-radius:50% to render a circle
@@ -366,7 +406,7 @@ a { color: var(--orange); text-decoration: none; }
    background never shows through the paper. The box's own colour is app
    CHROME, not a paper simulation: a fixed beige matching the settings panel,
    not var(--surface) or var(--card) (light #ffffff/#faf6ee, dark
-   #1c1f27/#13161c), so the box round the preview reads as the same material
+   #1c1f27/#13161c), so the box round the preview reads as the same paper
    as the rest of the app rather than a separate near-white or near-black
    plate behind it. #f0ebe1 is the --bg tone of home.css. */
 .lh-paper { position: relative; width: 100%; aspect-ratio: 210 / 297; background: #f0ebe1; border-radius: var(--radius-sm); overflow: hidden; }
@@ -452,14 +492,14 @@ a { color: var(--orange); text-decoration: none; }
 .lh-history-empty { font-size: var(--fs-label); color: var(--muted); text-align: center; padding: 12px 0; }
 .lh-history-item {
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 10px 12px; background: var(--surface); border-radius: var(--radius-sm);
 }
 .lh-history-item-main { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .lh-history-item-label { font-size: var(--fs-label); font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lh-history-item-meta { font-size: var(--fs-micro); color: var(--muted); }
 .lh-history-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
-.lh-history-delete { color: var(--muted); }
-.lh-history-delete:hover { border-color: #c0392b; color: #c0392b; }
+.lh-history-delete, #lh-logo-clear { color: var(--danger-ink); }
+.lh-history-delete:hover { border-color: var(--danger-ink); color: var(--danger-ink); }
 .lh-history-clear-row { margin-top: 12px; display: flex; justify-content: flex-end; }
 .lh-history-clear-row [hidden] { display: none; }
 

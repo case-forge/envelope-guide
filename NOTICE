@@ -67,8 +67,8 @@ copyright (c) 2012 Red Hat, Inc., with Reserved Font Name Liberation.
 Icons and marks
 ---------------
 
-The interface icons (delete, save, print, history, close) are Material Symbols (Google, Apache-2.0): each is a single
-path from @material-symbols/svg-400, inlined into the page as SVG. Nothing is fetched at runtime.
+The interface icons (delete, save, print, history, close) are Lucide icons (ISC): each is a small set of SVG
+shapes from lucide-static, inlined into the page as SVG. Nothing is fetched at runtime.
 
 The CaseForge name, the anvil mark and the favicon are CaseForge's, used to say who made the tool. They are not
 covered by the licence of the code: do not use them to suggest that your own copy comes from CaseForge.
