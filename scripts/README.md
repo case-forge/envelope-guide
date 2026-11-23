@@ -90,7 +90,7 @@ The envelope presets (also `envelope-guide --help envelopes`):
 With `--json`, stdout holds exactly one JSON object, on success and on failure, and nothing else, and stderr is empty. Without it, a failure is one line on stderr.
 
 ```json
-{"ok":true,"tool":"envelope-guide-cli","cliVersion":"1.1.0","schemaVersion":1,"mode":"single","output":"/path/o.pdf",
+{"ok":true,"tool":"envelope-guide-cli","cliVersion":"1.2.0","schemaVersion":1,"mode":"single","output":"/path/o.pdf",
  "bytes":1958,"pages":1,"envelope":"dl-din-5008-b","layout":{"tooTall":false,"maxLines":6,"...":"..."},"warnings":[]}
 ```
 

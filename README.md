@@ -55,8 +55,9 @@ Exit codes: 0 done, 1 the build failed, 2 wrong command line, 3 the input was re
 
 ## Changes since 1.0.0
 
-Version 1.1.0 collects everything changed since the first public snapshot.
+Version 1.2.0 collects everything changed since the first public snapshot.
 
+- **Look.** The typeface is Inter Tight, self-hosted in weights 400 and 600, with the new palette: an even cool dark ladder, and warm shadows on light. No box has an outline, the icons are Lucide's, and the title card has the same surface as every other box.
 - **Envelope size.** The size you pick last is remembered on this device, so the next visit opens on it.
 - **Errors.** When a preview or a PDF fails, the message now says what the browser reported, with the error code.
 - **Command line.** The command line moved from `envelope-guide-cli/` to `scripts/`, and its schema to the repository root. Its arguments, exit codes and output are unchanged.
