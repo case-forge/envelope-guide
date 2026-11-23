@@ -64,6 +64,13 @@ copyright (c) 2012 Red Hat, Inc., with Reserved Font Name Liberation.
     site and embedded into the PDF as a subset by the fontkit library above. Source: the Liberation Fonts project's
     release tarball liberation-fonts-ttf-2.1.5.tar.gz, sha256 7191c669bf38899f73a2094ed00f7b800553364f90e2637010a69c0e268f25d0.
 
+Inter Tight 5.3.0 (the Fontsource build of the Inter Tight family): SIL Open Font License 1.1
+Copyright 2022 The Inter Project Authors (https://github.com/rsms/inter-tight).
+    static/fonts/inter-tight/inter-tight-latin-400-normal.woff2, inter-tight-latin-600-normal.woff2,
+    inter-tight-latin-ext-400-normal.woff2 and inter-tight-latin-ext-600-normal.woff2, shipped unmodified, with the
+    licence beside them in static/fonts/inter-tight/OFL.txt. The page's typeface (weights 400 and 600), declared in
+    static/css/app.css and served from this site: no font host. No Reserved Font Name is declared.
+
 Icons and marks
 ---------------
 
