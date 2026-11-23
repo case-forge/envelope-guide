@@ -1,6 +1,6 @@
 {
   "name": "envelope-guide-cli",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Puts the address block of a letter where a window envelope expects it: a web page and a command line tool that make the sheet as a PDF",
   "type": "module",
   "private": true,
